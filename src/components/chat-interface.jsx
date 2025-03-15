@@ -49,9 +49,9 @@ export  function ChatInterface() {
   }
 
   return (
-    <div className="w-full max-w-4xl mx-auto h-screen md:h-[calc(100vh-2rem)] flex flex-col rounded-lg border bg-card text-card-foreground shadow-sm">
+    <div className="w-full max-w-5xl mx-auto h-screen flex flex-col rounded-lg border bg-card text-card-foreground shadow-sm">
       <div className="px-6 py-4 border-b flex flex-row items-center justify-between">
-        <h3 className="text-2xl font-semibold leading-none tracking-tight">Anonymous Chat Room</h3>
+        <h3 className="text-2xl font-semibold leading-none tracking-tight">Open Room</h3>
         <ThemeToggle />
       </div>
 

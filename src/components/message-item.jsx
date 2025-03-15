@@ -20,7 +20,7 @@ export default function MessageItem({ message, isCurrentUser, onReply }) {
 
     // Detect right-to-left swipe (for left-aligned messages)
     // or left-to-right swipe (for right-aligned messages)
-    if ((isCurrentUser && diff < -50) || (!isCurrentUser && diff > 50)) {
+    if ((isCurrentUser && diff >50) || (!isCurrentUser && diff < -50)) {
       setSwiped(true);
     }
   };
@@ -49,12 +49,20 @@ export default function MessageItem({ message, isCurrentUser, onReply }) {
 
   return (
     <div
+
+    onClick={(e) => {
+      e.stopPropagation();
+      onReply(message);
+      setShowActions(!showActions)
+    }}
+
+
       id={`message-${message.id}`}
       ref={messageRef}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
-      onClick={() => setShowActions(!showActions)}
+      // onClick={() => setShowActions(!showActions)}
       className={`flex items-start gap-2 mb-4 ${isCurrentUser ? "justify-end" : "justify-start"} group`}>
 
       {!isCurrentUser && (
@@ -67,7 +75,7 @@ export default function MessageItem({ message, isCurrentUser, onReply }) {
 
       <div className="flex flex-col relative">
         <span className="font-medium pb-1 text-sm">{isCurrentUser ? "" : message.nickname}</span>
-        
+
         {message.replyTo && message.replyTo.id ? (
           <div
             className="bg-gray-200  dark:bg-zinc-600 p-2 rounded text-xs border-l-2 border-blue-500 mb-1 cursor-pointer hover:bg-gray-300 dark:hover:bg-zinc-700 transition-all duration-300"
@@ -77,7 +85,7 @@ export default function MessageItem({ message, isCurrentUser, onReply }) {
               if (replyElement) {
                 replyElement.scrollIntoView({ behavior: 'smooth' });
                 replyElement.classList.add('bg-zinc-400');
-                setTimeout(() => replyElement.classList.remove('bg-zinc-400'), 1500);
+                setTimeout(() => replyElement.classList.remove('bg-zinc-400'), 500);
               }
             }}
           >
@@ -98,10 +106,10 @@ export default function MessageItem({ message, isCurrentUser, onReply }) {
             e.stopPropagation();
             onReply(message);
           }}
-          className="absolute -right-10 top-1/2 -translate-y-1/2 text-xs p-1 bg-gray-100 hover:bg-gray-200 dark:bg-zinc-700 dark:hover:bg-zinc-600 rounded-full opacity-0 group-hover:opacity-70 hover:opacity-100 transition-opacity"
+          className="absolute -right-10 top-1/2 -translate-y-1/2 text-xs p-1 bg-gray-100 hover:bg-gray-200 dark:bg-zinc-700 dark:hover:bg-zinc-600 rounded-full opacity-0 group-hover:opacity-70 hover:opacity-100 transition-opacity group/tooltip"
           aria-label="Reply"
         >
-          <span className="absolute -top-8 left-1/2 -translate-x-1/2 bg-black dark:bg-white text-white dark:text-black px-2 py-1 rounded text-xs opacity-0 hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">
+          <span className="absolute -top-8 left-1/2 -translate-x-1/2 bg-black dark:bg-white text-white dark:text-black px-2 py-1 rounded text-xs opacity-0 group-hover/tooltip:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">
             Reply
           </span>
           <svg
@@ -120,8 +128,9 @@ export default function MessageItem({ message, isCurrentUser, onReply }) {
             <path d="M20 18v-2a4 4 0 0 0-4-4H4"></path>
           </svg>
         </button>
+
       </div>
-      
+
       {isCurrentUser && (
         <div
           className={`flex-shrink-0 w-8 h-8 rounded-full ${message.color} flex items-center justify-center text-white font-medium`}

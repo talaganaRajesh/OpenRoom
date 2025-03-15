@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useRef } from "react"
+import { useState, useRef,useEffect } from "react"
 import { Button } from "./ui/button"
 import { Input } from "./ui/input"
 
@@ -28,6 +28,20 @@ export default function MessageInput({ onSendMessage, onSetNickname,replyingTo,
     }
   }
 
+   // Focus input on initial mount
+   useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus()
+    }
+  }, [])
+
+  
+
+  useEffect(() => {
+    if (replyingTo && inputRef.current) {
+      inputRef.current.focus()
+    }
+  }, [replyingTo])
 
 
   return (
