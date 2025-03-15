@@ -28,8 +28,8 @@ export  function ChatInterface() {
               <div className="mt-4 p-4 bg-muted rounded-lg text-sm">
                 <p className="font-medium mb-2">Firebase Security Rules Setup:</p>
                 <ol className="list-decimal pl-5 space-y-1">
-                  <li>Go to the Firebase Console</li>
-                  <li>Select your project</li>
+                  <li>Go to the Firebase Console </li>
+                  <li>Select your project bro</li>
                   <li>Navigate to Firestore Database</li>
                   <li>Click on the "Rules" tab</li>
                   <li>Update the rules to allow read/write access to the messages collection</li>
