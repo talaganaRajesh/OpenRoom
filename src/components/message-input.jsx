@@ -78,7 +78,7 @@ export default function MessageInput({ onSendMessage, onSetNickname, replyingTo,
       </form>
 
 
-      <div className="flex flex-row items-center gap-2 mt-4 w-full">
+      <div className="flex flex-row items-center gap-2 mt-2 w-full">
         {/* Nickname Input Section */}
         <div className="flex gap-2 flex-col md:flex-row items-center w-full md:w-auto">
           <button className="text-xs w-full md:w-auto hidden md:block cursor-default h-9 rounded-sm text-muted-foreground mb-1 md:mb-0">
@@ -94,7 +94,7 @@ export default function MessageInput({ onSendMessage, onSetNickname, replyingTo,
         </div>
 
         {/* Disclaimer Section */}
-        <div className="flex w-full md:ml-10 justify-center md:justify-start text-xs text-muted-foreground mt-2 md:mt-0">
+        <div className="flex w-full md:ml-10 justify-center md:justify-start text-xs text-muted-foreground">
           <strong className="hidden md:block mr-1">Disclaimer:</strong> Don't take things seriously
         </div>
       </div>
