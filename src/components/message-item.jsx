@@ -92,7 +92,7 @@ export default function MessageItem({ message, isCurrentUser, onReply }) {
         </div>
       )}
 
-      <div className="flex flex-col relative">
+      <div className="flex md:max-w-lg max-w-52 w-ull flex-col relative">
         <span className="font-medium pb-1 text-sm" style={{ color: lightColor }}>{isCurrentUser ? "" : message.nickname}</span>
 
         {message.replyTo && message.replyTo.id ? (
@@ -116,7 +116,7 @@ export default function MessageItem({ message, isCurrentUser, onReply }) {
         <div
           className={`${isCurrentUser ? "bg-zinc-800 dark:bg-zinc-200 text-primary-foreground" : "bg-zinc-300 dark:bg-zinc-800"} rounded-lg pl-4 py-2 pr-20 relative`}
         >
-          <p className="break-words">{message.text}</p>
+          <p className="break-words text-xs md:text-base">{message.text}</p>
           <span className="text-xs bottom-1 absolute right-2 opacity-70">{formatTimestamp(message.timestamp)}</span>
         </div>
 
