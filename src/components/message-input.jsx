@@ -26,6 +26,12 @@ export default function MessageInput({ onSendMessage, onSetNickname,replyingTo,
     } else if (result.error) {
       setError(result.error)
     }
+
+     // Ensure input remains focused after message is sent
+     if (inputRef.current) {
+      inputRef.current.focus();
+    }
+
   }
 
    // Focus input on initial mount
@@ -35,7 +41,7 @@ export default function MessageInput({ onSendMessage, onSetNickname,replyingTo,
     }
   }, [])
 
-  
+
 
   useEffect(() => {
     if (replyingTo && inputRef.current) {
@@ -48,22 +54,7 @@ export default function MessageInput({ onSendMessage, onSetNickname,replyingTo,
     <div className="border-t p-4">
       {error && <div className="mb-2 p-2 bg-destructive/10 text-destructive text-sm rounded">{error}</div>}
 
-      <div className="flex items-center gap-2 mb-4">
-        <div className="flex justify-center items-center">
-          <button className="text-xs cursor-default px-4 h-9 rounded-sm text-muted-foreground mb-1 block">
-
-            Nickname :
-          </button>
-          <div className="">
-            <Input
-              onChange={(e) => onSetNickname(e.target.value)}
-              placeholder="Anonymous"
-              className=" border-zinc-400 dark:border-zinc-700"
-            />
-
-          </div>
-        </div>
-      </div>
+     
 
 
       {/* Reply context if this message is a reply */}
@@ -85,6 +76,25 @@ export default function MessageInput({ onSendMessage, onSetNickname,replyingTo,
           Send
         </Button>
       </form>
+
+
+      <div className="flex items-center gap-2 mt-4">
+        <div className="flex justify-center items-center">
+          <button className="text-xs cursor-default px-4 h-9 rounded-sm text-muted-foreground mb-1 block">
+
+            Nickname :
+          </button>
+          <div className="">
+            <Input
+              onChange={(e) => onSetNickname(e.target.value)}
+              placeholder="Anonymous"
+              className=" border-zinc-400 w-1/2 md:w-full dark:border-zinc-700"
+            />
+
+          </div>
+        </div>
+      </div>
+
     </div>
   )
 }
