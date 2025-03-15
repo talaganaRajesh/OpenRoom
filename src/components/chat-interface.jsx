@@ -1,5 +1,5 @@
 import { useChat } from "../hooks/use-chat.js";
-import MessageList from "./message-List.jsx";
+import MessageList from "./message-list.jsx";
 import MessageInput from "./message-input.jsx";
 import ThemeToggle from "./theme-toggle.jsx";
 
