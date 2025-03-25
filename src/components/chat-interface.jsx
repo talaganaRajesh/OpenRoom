@@ -3,6 +3,7 @@ import MessageList from "./message-list.jsx";
 import MessageInput from "./message-input.jsx";
 import ThemeToggle from "./theme-toggle.jsx";
 
+
 export  function ChatInterface() {
   const {
     messages,
@@ -14,7 +15,9 @@ export  function ChatInterface() {
     messagesEndRef,
     replyingTo,
     setReplyMessage,
-    cancelReply
+    cancelReply,
+    aiEnabled,
+    setAiEnabled
   } = useChat();
 
   if (error) {
@@ -70,6 +73,8 @@ export  function ChatInterface() {
           onSetNickname={setNickname}
           replyingTo={replyingTo}
           onCancelReply={cancelReply}
+          aiEnabled={aiEnabled}
+          setAiEnabled={setAiEnabled}
         />
       </div>
     </div>

@@ -7,10 +7,11 @@ import { Input } from "./ui/input"
 import ReplyPreview from "./ReplyPreview.jsx";
 
 export default function MessageInput({ onSendMessage, onSetNickname, replyingTo,
-  onCancelReply }) {
+  onCancelReply,aiEnabled,setAiEnabled }) {
   const [message, setMessage] = useState("")
   const [error, setError] = useState(null)
   const inputRef = useRef(null)
+
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -92,6 +93,37 @@ export default function MessageInput({ onSendMessage, onSetNickname, replyingTo,
             />
           </div>
         </div>
+
+        <button
+          onClick={() => setAiEnabled(prev => !prev)}
+          className={`w-24 px-2 h-9 flex items-center justify-between rounded-full transition-all duration-300 overflow-hidden
+          ${aiEnabled ? "bg-amber-500 text-black" : "bg-gray-300 text-gray-600"}`}
+        >
+          {aiEnabled&& (
+            <span className="text-sm font-bold transition-all duration-300 text-yellow-800 ml-1">
+              AI
+            </span>
+          ) }
+          <span
+            className={`w-6 h-6 bg-zinc-600 rounded-full shadow-md transition-all duration-300 transform
+            ${aiEnabled ? "translate-x-1" : "translate-x-0"}`}
+          ></span>
+
+          {!aiEnabled && (
+            <span
+            className="text-sm font-bold transition-all duration-300"
+          >
+            AI
+          </span>
+          )
+            
+          }
+
+        </button>
+
+
+
+
 
         {/* Disclaimer Section */}
         <div className="flex w-full md:ml-10 justify-center md:justify-start text-xs text-muted-foreground">

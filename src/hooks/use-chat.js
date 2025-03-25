@@ -11,6 +11,9 @@ export function useChat() {
   const [messages, setMessages] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+
+  const [aiEnabled, setAiEnabled] = useState(false);
+
   const [userSession, setUserSession] = useState(() => {
     // Initialize user session with random ID and color
     return {
@@ -104,7 +107,7 @@ export function useChat() {
       const isNotReplyToAI = !replyingTo || replyingTo.userId !== AI_BOT.id;
 
 
-      if (isUserMessage && isNotReplyToAI) {
+      if (isUserMessage && isNotReplyToAI && aiEnabled) {
         // Get the message we just sent to use as context for the AI
         const sentMessage = {
           id: docRef.id,
@@ -189,6 +192,8 @@ export function useChat() {
     replyingTo,
     setReplyMessage,
     cancelReply,
+    aiEnabled,
+    setAiEnabled,
   }
 }
 
