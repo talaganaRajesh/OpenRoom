@@ -7,6 +7,8 @@ export default function MessageItem({ message, isCurrentUser, onReply }) {
   const [swiped, setSwiped] = useState(false);
   const messageRef = useRef(null);
 
+  const isAi=message.isAi===true;
+
   // Handle swipe gesture
   const handleTouchStart = (e) => {
     setTouchStart(e.touches[0].clientX);
@@ -88,7 +90,7 @@ export default function MessageItem({ message, isCurrentUser, onReply }) {
         <div
           className={`flex-shrink-0 w-8 h-8 rounded-full ${message.color} flex items-center justify-center text-white font-medium`}
         >
-          {getInitials(message.nickname)}
+          {isAi ? "AI":getInitials(message.nickname)}
         </div>
       )}
 

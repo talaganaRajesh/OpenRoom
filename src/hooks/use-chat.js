@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback } from "react"
 import { db } from "@/lib/firebase"
 import { collection, addDoc, query, orderBy, onSnapshot, serverTimestamp } from "firebase/firestore"
 import { generateUserId, generateRandomColor, filterProfanity } from "@/lib/utils"
+import { postAIResponse, AI_BOT } from '../lib/aiService.js';
 
 
 export function useChat() {
@@ -51,9 +52,15 @@ export function useChat() {
     setReplyingTo(null);
   }, []);
 
-  // Modify your sendMessage function to include reply data
+
+
+
+  // Inside the useChat function, modify the sendMessage function:
+
+  // Send message
   const sendMessage = useCallback(async (text) => {
     if (!text.trim()) return { success: false, error: 'Message cannot be empty' };
+
 
 
     try {
@@ -80,7 +87,7 @@ export function useChat() {
       }
 
       // Add message to Firestore
-      await addDoc(collection(db, 'messages'), messageData);
+      const docRef = await addDoc(collection(db, 'messages'), messageData);
 
       // Update last message time
       setUserSession(prev => ({
@@ -91,6 +98,30 @@ export function useChat() {
       // Clear reply state
       setReplyingTo(null);
 
+      // Check if the message is a question and trigger AI response
+      // We don't want the AI to respond to its own messages or replies to AI
+      const isUserMessage = messageData.userId !== AI_BOT.id;
+      const isNotReplyToAI = !replyingTo || replyingTo.userId !== AI_BOT.id;
+
+
+      if (isUserMessage && isNotReplyToAI) {
+        // Get the message we just sent to use as context for the AI
+        const sentMessage = {
+          id: docRef.id,
+          ...messageData,
+          timestamp: Date.now() // Use current time since serverTimestamp() doesn't return a value
+        };
+      
+        // Build question prompt including the replied-to message if available
+        const replyText = replyingTo ? `Replying to: ${replyingTo.nickname}: ${replyingTo.text}. ` : '';
+        const questionPrompt = `${replyText}User: ${filteredText}`;
+      
+        // Post AI response (don't await to avoid blocking the UI)
+        postAIResponse(questionPrompt, sentMessage);
+      }
+      
+   
+
       return { success: true };
     } catch (err) {
       console.error('Error sending message:', err);
@@ -99,17 +130,15 @@ export function useChat() {
       }
       return { success: false, error: 'Failed to send message. Please try again.' };
     }
-  }, [ userSession, replyingTo]);
-
-
+  }, [userSession, replyingTo]);
 
 
   useEffect(() => {
     setLoading(true);
-  
+
     try {
       const q = query(collection(db, "messages"), orderBy("timestamp", "desc"));
-  
+
       const unsubscribe = onSnapshot(
         q,
         (snapshot) => {
@@ -125,10 +154,10 @@ export function useChat() {
               replyTo: data.replyTo ? { ...data.replyTo } : null, // Ensure replyTo is included
             };
           }).sort((a, b) => a.timestamp - b.timestamp); // Sort by timestamp ascending
-  
+
           setMessages(newMessages);
           setLoading(false);
-  
+
           // Scroll to bottom when new messages arrive
           setTimeout(scrollToBottom, 100);
         },
@@ -138,7 +167,7 @@ export function useChat() {
           setLoading(false);
         }
       );
-  
+
       return () => unsubscribe();
     } catch (err) {
       console.error("Error setting up message listener:", err);
@@ -146,7 +175,7 @@ export function useChat() {
       setLoading(false);
     }
   }, [scrollToBottom]);
-  
+
 
 
   return {
