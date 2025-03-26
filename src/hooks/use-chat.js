@@ -104,10 +104,10 @@ export function useChat() {
       // Check if the message is a question and trigger AI response
       // We don't want the AI to respond to its own messages or replies to AI
       const isUserMessage = messageData.userId !== AI_BOT.id;
-      const isNotReplyToAI = !replyingTo || replyingTo.userId !== AI_BOT.id;
+      // const isNotReplyToAI = !replyingTo || replyingTo.userId !== AI_BOT.id;
 
 
-      if (isUserMessage && isNotReplyToAI && aiEnabled) {
+      if (isUserMessage && aiEnabled) {
         // Get the message we just sent to use as context for the AI
         const sentMessage = {
           id: docRef.id,

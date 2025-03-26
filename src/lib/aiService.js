@@ -28,7 +28,7 @@ export async function generateAIResponse(question) {
                 2. Maintain context from previous messages.\n
                 3. Always respond in English text, but adapt the language:\n
                    - If the user types in Hindi, reply in Hindi but using English script.\n
-                User's question: "${question}"` }]
+                User's message: "${question}"` }]
           }
         ],
         generationConfig: {
@@ -43,7 +43,7 @@ export async function generateAIResponse(question) {
     }
 
     
-    return data.candidates?.[0]?.content?.parts?.[0]?.text || 'No response from AI.';
+    return data.candidates?.[0]?.content?.parts?.[0]?.text;
 
   } catch (error) {
     console.error('Error generating AI response:', error);
