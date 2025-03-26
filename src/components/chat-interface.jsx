@@ -3,8 +3,14 @@ import MessageList from "./message-list.jsx";
 import MessageInput from "./message-input.jsx";
 import ThemeToggle from "./theme-toggle.jsx";
 
+import { useParams } from "react-router-dom";
+
+import { Link } from "react-router-dom";
 
 export  function ChatInterface() {
+
+  const { roomId } = useParams(); // Get the roomId from the URL params
+
   const {
     messages,
     loading,
@@ -18,7 +24,7 @@ export  function ChatInterface() {
     cancelReply,
     aiEnabled,
     setAiEnabled
-  } = useChat();
+  } = useChat(roomId);
 
   if (error) {
     return (
@@ -54,7 +60,9 @@ export  function ChatInterface() {
   return (
     <div className="w-full max-w-5xl mx-auto md:h-screen h-svh flex flex-col rounded-lg border dark:bg-zinc-900 bg-zinc-100 text-card-foreground shadow-sm">
       <div className="px-6 md:py-4 py-2 border-b flex flex-row items-center justify-between">
-        <h3 className="text-2xl font-semibold leading-none tracking-tight">Open Room</h3>
+        <Link to="/">
+        <h3 className="text-2xl font-semibold leading-none tracking-tight">Open Room - {roomId}</h3>
+        </Link>
         <ThemeToggle />
       </div>
 

@@ -7,7 +7,7 @@ import { generateUserId, generateRandomColor, filterProfanity } from "@/lib/util
 import { postAIResponse, AI_BOT } from '../lib/aiService.js';
 
 
-export function useChat() {
+export function useChat(roomId) {
   const [messages, setMessages] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -90,7 +90,7 @@ export function useChat() {
       }
 
       // Add message to Firestore
-      const docRef = await addDoc(collection(db, 'messages'), messageData);
+      const docRef = await addDoc(collection(db, roomId), messageData);
 
       // Update last message time
       setUserSession(prev => ({
@@ -140,7 +140,7 @@ export function useChat() {
     setLoading(true);
 
     try {
-      const q = query(collection(db, "messages"), orderBy("timestamp", "desc"));
+      const q = query(collection(db, roomId), orderBy("timestamp", "desc"));
 
       const unsubscribe = onSnapshot(
         q,
