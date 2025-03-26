@@ -24,7 +24,7 @@ function ChatRooms() {
   ];
 
   return (
-    <div className="w-4/5 items-start justify-start flex flex-col h-screen p-6">
+    <div className="w-4/5 items-start justify-start flex flex-col h-full p-6">
       {/* Logo */}
       <h1 className="text-3xl font-bold text-gray-800 mb-14">Open Room</h1>
       
@@ -39,7 +39,7 @@ function ChatRooms() {
             <img 
               src={room.image} 
               alt={room.name} 
-              className="absolute inset-0 w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity"
+              className="absolute inset-0 w-full h-full opacity-80 hover:opacity-100 transition-opacity"
             />
             <h2 className="absolute text-lg mb-2 font-semibold text-white bg-black bg-opacity-60 px-3 py-1 rounded-lg">
               {room.name.replace("-", " ").toUpperCase()}
