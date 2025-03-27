@@ -120,7 +120,7 @@ export function useChat(roomId) {
         const questionPrompt = `${replyText}User: ${filteredText}`;
       
         // Post AI response (don't await to avoid blocking the UI)
-        postAIResponse(questionPrompt, sentMessage);
+        postAIResponse(questionPrompt, sentMessage,roomId);
       }
       
    

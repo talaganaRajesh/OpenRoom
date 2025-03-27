@@ -53,7 +53,7 @@ export async function generateAIResponse(question) {
 
 
 // Function to post AI response to the chat
-export async function postAIResponse(question, replyToMessage = null) {
+export async function postAIResponse(question, replyToMessage = null,roomId) {
   try {
     const aiResponse = await generateAIResponse(question);
     
@@ -77,7 +77,7 @@ export async function postAIResponse(question, replyToMessage = null) {
     }
     
     // Add to Firestore
-    await addDoc(collection(db, 'messages'), messageData);
+    await addDoc(collection(db, roomId), messageData);
     return true;
   } catch (error) {
     console.error('Error posting AI response:', error);
