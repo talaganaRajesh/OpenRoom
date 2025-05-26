@@ -44,12 +44,6 @@ function ChatRooms() {
       image: gaming_image,
       description: "Find gaming buddies and discuss your favorite games"
     },
-    { 
-      name: "College Life", 
-      id: "collegelife", 
-      image: collegelife_image,
-      description: "Share campus experiences and connect with fellow students"
-    },
   ];
 
   return (
