@@ -64,16 +64,16 @@ export default function MessageInput({ onSendMessage, onSetNickname, replyingTo,
 
       <form onSubmit={handleSubmit} className="flex gap-2">
         <div className="relative flex-1">
-          <Input
+          <textarea
             ref={inputRef}
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             placeholder="Type a message..."
-            className="pr-10"
+            className="pr-10 w-full pl-2 pt-1 h-fit"
           />
 
         </div>
-        <Button type="submit" disabled={!message.trim()}>
+        <Button type="submit" className="h-12" disabled={!message.trim()}>
           Send
         </Button>
       </form>
