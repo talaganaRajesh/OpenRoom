@@ -49,22 +49,7 @@
   }
 }
 
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-    /* Prevent scroll on mobile when chat is open */
-    overflow: hidden;
-    height: 100dvh;
-    width: 100vw;
-    max-width: 100vw;
-    max-height: 100dvh;
-    overscroll-behavior: none;
-    touch-action: none;
-  }
-}
+/* Removed duplicated base @apply block to avoid lint issues; global styles handled by initial base layer */
 
 
 

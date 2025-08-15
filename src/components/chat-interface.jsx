@@ -2,6 +2,7 @@ import { useChat } from "../hooks/use-chat.js";
 import MessageList from "./message-list.jsx";
 import MessageInput from "./message-input.jsx";
 import ThemeToggle from "./theme-toggle.jsx";
+import { ArrowLeft } from "lucide-react";
 
 import { useParams } from "react-router-dom";
 
@@ -64,9 +65,12 @@ export  function ChatInterface({ isChatRoom }) {
         : "w-full max-w-5xl mx-auto flex flex-col rounded-lg border dark:bg-zinc-900 bg-zinc-100 text-card-foreground shadow-sm"
     }>
       <div className="px-6 md:py-4 py-2 border-b flex flex-row items-center justify-between">
-        <Link to="/">
-        <h3 className="md:text-2xl font-semibold leading-none tracking-tight">Open Room - {roomId}</h3>
-        </Link>
+        <div className="flex items-center gap-3 select-none">
+          <Link to="/" aria-label="Back to home" className="p-1 -ml-2 hover:text-blue-600 transition-colors">
+            <ArrowLeft className="w-6 h-6" />
+          </Link>
+          <h3 className="md:text-2xl font-semibold leading-none tracking-tight">Oroom - {roomId}</h3>
+        </div>
         <ThemeToggle />
       </div>
 
