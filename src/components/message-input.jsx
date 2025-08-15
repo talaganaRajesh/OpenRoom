@@ -71,9 +71,9 @@ export default function MessageInput({ onSendMessage, onSetNickname, replyingTo,
           className={`relative w-16 px-1 h-8 flex items-center justify-between rounded-full transition-all duration-300 overflow-hidden text-xs font-semibold ${aiEnabled ? 'bg-amber-500 text-black' : 'bg-gray-300 text-gray-600'}`}
           aria-pressed={aiEnabled}
         >
-          <span className={`absolute left-1 transition-opacity ${aiEnabled ? 'opacity-100' : 'opacity-0'}`}>AI</span>
+          <span className={`absolute left-3 transition-opacity ${aiEnabled ? 'opacity-100' : 'opacity-0'}`}>AI</span>
           <span className={`w-5 h-5 bg-zinc-600 rounded-full shadow-md transition-all duration-300 transform ${aiEnabled ? 'translate-x-9' : 'translate-x-0'}`}></span>
-          <span className={`absolute right-1 transition-opacity ${!aiEnabled ? 'opacity-100' : 'opacity-0'}`}>AI</span>
+          <span className={`absolute right-3 transition-opacity ${!aiEnabled ? 'opacity-100' : 'opacity-0'}`}>AI</span>
         </button>
         <Input
           onChange={(e) => onSetNickname(e.target.value)}
