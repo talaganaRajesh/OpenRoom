@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 
 import { Link } from "react-router-dom";
 
-export  function ChatInterface() {
+export  function ChatInterface({ isChatRoom }) {
 
   const { roomId } = useParams(); // Get the roomId from the URL params
 
@@ -58,7 +58,11 @@ export  function ChatInterface() {
   }
 
   return (
-    <div className="w-full max-w-5xl mx-auto md:h-screen h-svh flex flex-col rounded-lg border dark:bg-zinc-900 bg-zinc-100 text-card-foreground shadow-sm">
+    <div className={
+      isChatRoom
+        ? "w-screen h-[100dvh] max-w-none md:max-w-5xl md:mx-auto md:h-screen flex flex-col rounded-none md:rounded-lg border dark:bg-zinc-900 bg-zinc-100 text-card-foreground shadow-sm fixed top-0 left-0 md:relative z-50"
+        : "w-full max-w-5xl mx-auto flex flex-col rounded-lg border dark:bg-zinc-900 bg-zinc-100 text-card-foreground shadow-sm"
+    }>
       <div className="px-6 md:py-4 py-2 border-b flex flex-row items-center justify-between">
         <Link to="/">
         <h3 className="md:text-2xl font-semibold leading-none tracking-tight">Open Room - {roomId}</h3>
@@ -66,7 +70,7 @@ export  function ChatInterface() {
         <ThemeToggle />
       </div>
 
-      <div className="flex-1 overflow-hidden flex flex-col">
+  <div className="flex-1 overflow-hidden flex flex-col min-h-0">
         <MessageList
           messages={messages}
           currentUserId={userSession.id}

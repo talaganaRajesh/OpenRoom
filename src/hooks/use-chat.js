@@ -13,6 +13,11 @@ export function useChat(roomId) {
   const [error, setError] = useState(null)
 
   const [aiEnabled, setAiEnabled] = useState(false);
+  // Ref to always have latest aiEnabled value in sendMessage
+  const aiEnabledRef = useRef(aiEnabled);
+  useEffect(() => {
+    aiEnabledRef.current = aiEnabled;
+  }, [aiEnabled]);
 
   const [userSession, setUserSession] = useState(() => {
     // Initialize user session with random ID and color
@@ -60,17 +65,13 @@ export function useChat(roomId) {
 
   // Inside the useChat function, modify the sendMessage function:
 
-  // Send message
-  const sendMessage = useCallback(async (text) => {
+  // Send message (accepts optional replyTarget for optimistic clearing)
+  const sendMessage = useCallback(async (text, replyTarget = null) => {
     if (!text.trim()) return { success: false, error: 'Message cannot be empty' };
 
-
-
     try {
-      // Filter profanity
       const filteredText = filterProfanity(text);
 
-      // Create message object with optional reply data
       const messageData = {
         text: filteredText,
         nickname: userSession.nickname,
@@ -79,52 +80,36 @@ export function useChat(roomId) {
         color: userSession.color,
       };
 
-      // Add reply data if replying to a message
-      if (replyingTo) {
+      if (replyTarget) {
         messageData.replyTo = {
-          id: replyingTo.id,
-          text: replyingTo.text,
-          nickname: replyingTo.nickname,
-          userId: replyingTo.userId
+          id: replyTarget.id,
+          text: replyTarget.text,
+          nickname: replyTarget.nickname,
+          userId: replyTarget.userId,
         };
       }
 
-      // Add message to Firestore
       const docRef = await addDoc(collection(db, roomId), messageData);
 
-      // Update last message time
       setUserSession(prev => ({
         ...prev,
         lastMessageTime: Date.now(),
       }));
 
-      // Clear reply state
+      // Safety clear
       setReplyingTo(null);
 
-      // Check if the message is a question and trigger AI response
-      // We don't want the AI to respond to its own messages or replies to AI
       const isUserMessage = messageData.userId !== AI_BOT.id;
-      // const isNotReplyToAI = !replyingTo || replyingTo.userId !== AI_BOT.id;
-
-
-      if (isUserMessage && aiEnabled) {
-        // Get the message we just sent to use as context for the AI
+      if (isUserMessage && aiEnabledRef.current) {
         const sentMessage = {
           id: docRef.id,
           ...messageData,
-          timestamp: Date.now() // Use current time since serverTimestamp() doesn't return a value
+          timestamp: Date.now(),
         };
-      
-        // Build question prompt including the replied-to message if available
-        const replyText = replyingTo ? `Replying to: ${replyingTo.nickname}: ${replyingTo.text}. ` : '';
+        const replyText = replyTarget ? `Replying to: ${replyTarget.nickname}: ${replyTarget.text}. ` : '';
         const questionPrompt = `${replyText}User: ${filteredText}`;
-      
-        // Post AI response (don't await to avoid blocking the UI)
-        postAIResponse(questionPrompt, sentMessage,roomId);
+        postAIResponse(questionPrompt, sentMessage, roomId);
       }
-      
-   
-
       return { success: true };
     } catch (err) {
       console.error('Error sending message:', err);
@@ -133,7 +118,7 @@ export function useChat(roomId) {
       }
       return { success: false, error: 'Failed to send message. Please try again.' };
     }
-  }, [userSession, replyingTo]);
+  }, [userSession]);
 
 
   useEffect(() => {

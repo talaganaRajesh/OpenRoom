@@ -9,10 +9,10 @@ import  ChatRooms  from "./components/ChatRooms.jsx"
 function App() {
   return (
     <Router>
-      <main className="md:min-h-screen bg-gradient-to-br from-zinc-100 to-zinc-200 dark:from-zinc-900 dark:to-zinc-800 flex items-center justify-center">
+  <main className="min-h-screen bg-gradient-to-br from-zinc-100 to-zinc-200 dark:from-zinc-900 dark:to-zinc-800 flex items-center justify-center">
         <Routes>
           <Route path="/" element={<ChatRooms />} />
-          <Route path="/:roomId" element={<ChatInterface />} />
+          <Route path="/:roomId" element={<ChatInterface isChatRoom={true} />} />
         </Routes>
       </main>
     </Router>
